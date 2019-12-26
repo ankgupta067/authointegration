@@ -11,10 +11,13 @@ class Nav extends Component {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/profile">Profile</Link>
+          {isAuthenticated() ? <Link to="/profile">Profile</Link> : ""}
           </li>
           <li>
-            <Link to="/public">Public</Link>
+              <Link to="/public">Public</Link>
+          </li>
+          <li>
+          {isAuthenticated() ? <Link to="/private">Private</Link> : ""}
           </li>
           <button onClick={isAuthenticated() ? logout : login}>
             {isAuthenticated() ? "logout" : "login"}
