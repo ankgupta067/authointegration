@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const jwt = require("express-jwt");
 const jwksrsa = require("jwks-rsa");
+const checkScope = require("express-jwt-authz");
 
 const checkJwt = jwt({
   secret: jwksrsa.expressJwtSecret({
@@ -26,6 +27,15 @@ app.get("/public", (req, res) => {
 app.get("/private", checkJwt, (req, res) => {
   res.json({
     message: "hello from private api"
+  });
+});
+
+app.get("/course", checkJwt, checkScope(["read:courses"]), (req, res) => {
+  res.json({
+    courses: [
+      { id: 1, title: "first course" },
+      { id: 2, title: "second course" }
+    ]
   });
 });
 
